@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C-Test Trainer – Reisen mit dem Auto</title>
+<style>
+  :root{
+    --pink:#ff7eb6;
+    --pink2:#ff4f9a;
+    --purple:#8d7aff;
+    --blue:#69c9ff;
+    --yellow:#ffd85c;
+    --mint:#75e0c0;
+    --cream:#fff9f2;
+    --ink:#40394a;
+    --muted:#81778c;
+    --card:#fffdfb;
+    --line:#eadfea;
+    --good:#35b878;
+    --bad:#f06478;
+  }
+
+  *{box-sizing:border-box}
+
+  body{
+    margin:0;
+    color:var(--ink);
+    font-family:"Trebuchet MS",Arial,sans-serif;
+    min-height:100vh;
+    background:
+      radial-gradient(circle at 8% 12%, #ffd6e9 0 55px, transparent 56px),
+      radial-gradient(circle at 91% 18%, #d9d1ff 0 75px, transparent 76px),
+      radial-gradient(circle at 82% 85%, #c9f5e8 0 65px, transparent 66px),
+      linear-gradient(135deg,#fff3fa 0%,#eef8ff 48%,#fff9df 100%);
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  /* little original anime-style decorative doodles */
+  body::before{
+    content:"✦  ♡  ✿  ˚₊‧  ☁  ✦  ♡";
+    position:fixed;
+    top:76px;
+    left:18px;
+    font-size:24px;
+    letter-spacing:14px;
+    color:#ff9bc5;
+    opacity:.55;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  body::after{
+    content:"☁  ✿  ♡  ✦  ˚₊‧  ☁";
+    position:fixed;
+    right:12px;
+    bottom:30px;
+    font-size:22px;
+    letter-spacing:11px;
+    color:#8e82e8;
+    opacity:.42;
+    transform:rotate(-8deg);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  header{
+    position:relative;
+    z-index:2;
+    background:linear-gradient(90deg,#ff75ad,#a77cff 55%,#69c9ff);
+    color:white;
+    padding:14px 28px;
+    display:flex;
+    align-items:center;
+    gap:32px;
+    box-shadow:0 5px 18px #8d72ad30;
+  }
+
+  header .logo{
+    font-weight:900;
+    font-size:22px;
+    letter-spacing:1px;
+    text-shadow:2px 2px 0 #7d62c555;
+  }
+
+  header nav{
+    display:flex;
+    gap:24px;
+    font-size:15px;
+    font-weight:700;
+  }
+
+  .wrap{
+    position:relative;
+    z-index:1;
+    max-width:1050px;
+    margin:28px auto;
+    padding:0 18px;
+  }
+
+  .top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    gap:20px;
+    margin-bottom:18px;
+  }
+
+  h1{
+    margin:0;
+    font-size:31px;
+    color:#55456d;
+  }
+
+  .subtitle{
+    color:var(--muted);
+    margin-top:7px;
+    font-weight:600;
+  }
+
+  .badge{
+    background:#fff4a9;
+    border:2px solid #f2cf55;
+    border-radius:999px;
+    padding:8px 14px;
+    font-size:13px;
+    font-weight:900;
+    color:#725b19;
+    box-shadow:3px 4px 0 #edcf7044;
+  }
+
+  .card{
+    background:rgba(255,253,251,.94);
+    border:2px solid #eadcf0;
+    border-radius:22px;
+    padding:25px;
+    box-shadow:0 10px 30px #8c70a51c, 5px 5px 0 #ffb4d522;
+    margin-bottom:20px;
+    backdrop-filter:blur(5px);
+  }
+
+  .card h2{
+    margin:0 0 8px;
+    font-size:21px;
+    color:#59466d;
+  }
+
+  .hintline{
+    color:var(--muted);
+    font-size:14px;
+    margin-bottom:22px;
+  }
+
+  .passage{
+    font-size:18px;
+    line-height:2.45;
+  }
+
+  .blank{
+    width:78px;
+    max-width:20vw;
+    padding:6px 7px;
+    border:2px solid #d9cce3;
+    border-radius:11px;
+    font-size:17px;
+    text-align:center;
+    background:#fff;
+    color:#51465b;
+    outline:none;
+    transition:.15s;
+    box-shadow:0 3px 0 #e9dff0;
+  }
+
+  .blank:focus{
+    border-color:var(--purple);
+    box-shadow:0 0 0 4px #9a88ff20,0 3px 0 #cfc3ef;
+  }
+
+  .blank.correct{
+    border-color:var(--good);
+    background:#ecfff5;
+    color:#178a58;
+  }
+
+  .blank.wrong{
+    border-color:var(--bad);
+    background:#fff0f4;
+    color:#c83c55;
+  }
+
+  .actions{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-top:24px;
+  }
+
+  button{
+    border:0;
+    border-radius:13px;
+    padding:11px 19px;
+    font-weight:900;
+    cursor:pointer;
+    font-size:15px;
+    font-family:inherit;
+    transition:.15s;
+  }
+
+  button:hover{
+    transform:translateY(-2px);
+  }
+
+  .primary{
+    background:linear-gradient(135deg,#ff6cae,#a276ff);
+    color:#fff;
+    box-shadow:0 5px 0 #b34c9b55;
+  }
+
+  .primary:hover{
+    background:linear-gradient(135deg,#ff5ca5,#9165f8);
+  }
+
+  .secondary{
+    background:#dff5ff;
+    color:#426278;
+    box-shadow:0 4px 0 #b6dce9;
+  }
+
+  .score{
+    display:none;
+    background:linear-gradient(135deg,#fff4bf,#ffe3f0);
+    border:2px solid #f1d37b;
+    border-radius:15px;
+    padding:17px;
+    margin-top:18px;
+  }
+
+  .score strong{
+    font-size:27px;
+    color:#704d72;
+  }
+
+  .review,.quiz{
+    display:none;
+  }
+
+  .review-item{
+    border:2px solid #f1dce6;
+    border-left:7px solid var(--bad);
+    border-radius:13px;
+    padding:15px;
+    margin:12px 0;
+    background:#fffafb;
+  }
+
+  .review-item.ok{
+    border-left-color:var(--good);
+    background:#f3fff9;
+  }
+
+  .answerline{margin:5px 0}
+  .answerline b{color:#19905b}
+  .yourwrong{color:#d24a61}
+
+  .explain{
+    margin-top:10px;
+    padding:12px 14px;
+    background:#f7f2ff;
+    border-radius:10px;
+    font-size:14px;
+    line-height:1.6;
+    border:1px solid #e6dcff;
+  }
+
+  .tag{
+    display:inline-block;
+    padding:4px 9px;
+    border-radius:999px;
+    font-size:11px;
+    font-weight:900;
+    background:#ffe3f0;
+    color:#a64d78;
+    margin-left:6px;
+  }
+
+  .q{
+    border:2px solid #e8def3;
+    border-radius:14px;
+    padding:17px;
+    margin:14px 0;
+    background:#fff;
+  }
+
+  .options{
+    display:grid;
+    gap:8px;
+    margin-top:12px;
+  }
+
+  .option{
+    border:2px solid #e8e1eb;
+    border-radius:10px;
+    background:#fff;
+    padding:10px 12px;
+    text-align:left;
+    font-weight:600;
+    color:#51495a;
+    box-shadow:none;
+  }
+
+  .option:hover{
+    border-color:#b69cff;
+    background:#faf7ff;
+  }
+
+  .option.selected.correct{
+    background:#eafff4;
+    border-color:var(--good);
+  }
+
+  .option.selected.wrong{
+    background:#fff0f3;
+    border-color:var(--bad);
+  }
+
+  .feedback{
+    display:none;
+    margin-top:10px;
+    font-size:14px;
+    line-height:1.5;
+    background:#fff8d9;
+    padding:10px;
+    border-radius:9px;
+  }
+
+  .small{
+    font-size:13px;
+    color:var(--muted);
+  }
+
+  @media(max-width:650px){
+    header{padding:12px 16px}
+    .top{align-items:flex-start;flex-direction:column}
+    .passage{font-size:16px;line-height:2.25}
+    .blank{width:65px;font-size:15px}
+    header nav{display:none}
+    .card{padding:17px}
+    body::before,body::after{font-size:18px}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">DEUTSCH</div>
+  <nav><span>Startseite</span><span>Dashboard</span><span>Meine Kurse</span><span>Üben</span></nav>
+</header>
+
+<main class="wrap">
+  <div class="top">
+    <div>
+      <h1>C-Test Trainer</h1>
+      <div class="subtitle">Reisen mit dem Auto · Deutsch lernen mit kleinen Schritten ✦</div>
+    </div>
+    <div class="badge">B1 · mit wenigen B2-Wörtern</div>
+  </div>
+
+  <section class="card">
+    <h2>Reisen mit dem Auto</h2>
+    <div class="hintline">
+      Ergänze die fehlenden Wortteile. Lies den ganzen Satz und achte besonders auf Grammatik und Kontext.
+    </div>
+
+    <div class="passage" id="passage">
+      Wenn man in Deutschland mit dem Auto verreist, nutzt man wegen des meist schnellen
+      Tempos häufig eine der vielen Autobahnen. Während
+      ei<input class="blank" data-answer="ner" aria-label="Blank 1"> längeren
+      Rei<input class="blank" data-answer="se" aria-label="Blank 2"> braucht
+      m<input class="blank" data-answer="an" aria-label="Blank 3"> früher
+      oder spä<input class="blank" data-answer="ter" aria-label="Blank 4">
+      ein<input class="blank" data-answer="mal" aria-label="Blank 5"> eine
+      Pa<input class="blank" data-answer="use" aria-label="Blank 6">, um
+      z<input class="blank" data-answer="u" aria-label="Blank 7"> tanken,
+      a<input class="blank" data-answer="n" aria-label="Blank 8"> die
+      Toi<input class="blank" data-answer="lette" aria-label="Blank 9"> zu
+      ge<input class="blank" data-answer="hen" aria-label="Blank 10"> oder
+      au<input class="blank" data-answer="f" aria-label="Blank 11">, um
+      z<input class="blank" data-answer="u" aria-label="Blank 12"> essen
+      od<input class="blank" data-answer="er" aria-label="Blank 13"> zu
+      schl<input class="blank" data-answer="afen" aria-label="Blank 14">.
+      In Deutschland hat je<input class="blank" data-answer="de" aria-label="Blank 15"> 
+      Autobahn s<input class="blank" data-answer="ich" aria-label="Blank 16">
+      sogenannte „Rasts<input class="blank" data-answer="tellen" aria-label="Blank 17">“.
+      Das si<input class="blank" data-answer="nd" aria-label="Blank 18"> Parkplätze
+      mit Tankstelle, einem ständig geöffneten Restaurant und eventuell sogar einem
+      Hotel.
+    </div>
+
+    <div class="actions">
+      <button class="primary" onclick="submitTest()">Abgeben</button>
+      <button class="secondary" onclick="resetTest()">Zurücksetzen</button>
+    </div>
+
+    <div class="score" id="score"></div>
+  </section>
+
+  <section class="card review" id="review">
+    <h2>Fehleranalyse</h2>
+    <div class="small">Hier siehst du nicht nur die richtige Antwort, sondern auch, warum sie im Kontext passt.</div>
+    <div id="reviewList"></div>
+  </section>
+
+  <section class="card quiz" id="quiz">
+    <h2>Wortschatz-Quiz</h2>
+    <div class="hintline">Die Fragen beziehen sich auf Wörter, die du im C-Test falsch hattest.</div>
+    <div id="quizList"></div>
+    <button class="primary" onclick="checkQuiz()">Quiz auswerten</button>
+    <div class="score" id="quizScore"></div>
+  </section>
+</main>
+
+<script>
+const explanations = {
+  1:{
+    type:"Grammatik",
+    title:"Genitiv nach „während“",
+    text:"„während einer längeren Reise“ steht hier mit Genitiv. „Reise“ ist feminin: die Reise → einer Reise. Das Adjektiv heißt deshalb ebenfalls „längeren“."
+  },
+  2:{
+    type:"Wortform",
+    title:"„Reise“",
+    text:"Nach „längeren“ steht hier das Nomen „Reise“. Zusammen ergibt sich „während einer längeren Reise“."
+  },
+  3:{
+    type:"Grammatik",
+    title:"Personalpronomen „man“",
+    text:"„man“ ist ein unpersönliches Pronomen und bedeutet hier ungefähr „people/one“. Es passt zum allgemeinen Satz über Autofahrten."
+  },
+  4:{
+    type:"Kontext",
+    title:"„später“",
+    text:"Die feste Verbindung „früher oder später“ bedeutet, dass etwas irgendwann passieren wird."
+  },
+  5:{
+    type:"Wortschatz",
+    title:"„einmal“",
+    text:"„früher oder später einmal“ beschreibt hier, dass man irgendwann während einer längeren Reise eine Pause braucht."
+  },
+  6:{
+    type:"Wortschatz",
+    title:"„Pause“",
+    text:"Eine „Pause“ ist eine Unterbrechung einer Aktivität. Beim Autofahren macht man eine Pause, um sich auszuruhen oder andere Dinge zu erledigen."
+  },
+  7:{
+    type:"Grammatik",
+    title:"Infinitiv mit „zu“",
+    text:"Nach „um“ steht hier die Konstruktion „um zu tanken“. Das Verb „tanken“ wird als Infinitiv mit „zu“ verwendet."
+  },
+  8:{
+    type:"Grammatik",
+    title:"„an die Toilette“",
+    text:"Im Ausdruck „an die Toilette gehen“ steht nach „an“ hier der Akkusativ: die Toilette → an die Toilette."
+  },
+  9:{
+    type:"Wortschatz",
+    title:"„Toilette“",
+    text:"„Toilette“ bezeichnet den Ort bzw. Raum, den man während einer Fahrt aufsuchen kann. Im Satz heißt es „an die Toilette gehen“."
+  },
+  10:{
+    type:"Wortform",
+    title:"„gehen“",
+    text:"Nach „zu“ folgt der Infinitiv: zu gehen. Der ganze Ausdruck lautet „an die Toilette zu gehen“."
+  },
+  11:{
+    type:"Grammatik",
+    title:"„auf“",
+    text:"Hier wird die Präposition „auf“ verwendet: „auf ... essen oder schlafen“. Der Satz nennt damit eine weitere Möglichkeit während der Reise."
+  },
+  12:{
+    type:"Grammatik",
+    title:"Infinitiv mit „zu“",
+    text:"Auch hier steht nach „um“ die Struktur „um zu essen“. „zu“ gehört zur Infinitivkonstruktion."
+  },
+  13:{
+    type:"Wortform",
+    title:"„oder“",
+    text:"„oder“ verbindet zwei Alternativen: essen oder schlafen."
+  },
+  14:{
+    type:"Wortschatz",
+    title:"„schlafen“",
+    text:"„schlafen“ bedeutet, sich im Schlaf auszuruhen. Im Kontext kann man an einem Rastplatz essen oder schlafen."
+  },
+  15:{
+    type:"Grammatik",
+    title:"„jede“",
+    text:"Der Ausdruck lautet „jede Autobahn“. „Autobahn“ ist feminin, deshalb heißt es im Nominativ Singular „jede“."
+  },
+  16:{
+    type:"Grammatik",
+    title:"Reflexives Pronomen „sich“",
+    text:"„sich“ gehört zur reflexiven Wendung „sich etwas nennen“. Hier: „sich sogenannte Raststätten“."
+  },
+  17:{
+    type:"Wortschatz",
+    title:"„Raststätten“",
+    text:"Eine Raststätte ist ein Ort an einer Autobahn, an dem Reisende eine Pause machen können. Dort gibt es häufig eine Tankstelle und ein Restaurant. Die Pluralform ist „Raststätten“."
+  },
+  18:{
+    type:"Grammatik",
+    title:"„sind“",
+    text:"Das Verb „sein“ muss mit dem Plural „Parkplätze“ übereinstimmen: Die Parkplätze sind ..."
+  }
+};
+
+const vocab = [
+  {
+    word:"Raststätte",
+    q:"Was ist eine „Raststätte“?",
+    options:[
+      "Ein Ort an einer Autobahn, an dem Reisende eine Pause machen können.",
+      "Eine kleine Straße zwischen zwei Städten.",
+      "Ein spezieller Fahrstreifen für Busse.",
+      "Ein Parkplatz nur für Lastwagen ohne weitere Einrichtungen."
+    ],
+    answer:0,
+    exp:"Eine Raststätte liegt typischerweise an einer Autobahn und bietet Reisenden Möglichkeiten wie Essen, Tanken oder eine Pause."
+  },
+  {
+    word:"Pause",
+    q:"Was bedeutet „eine Pause machen“ im Kontext einer Autofahrt?",
+    options:[
+      "Die Fahrt für eine Weile unterbrechen.",
+      "Schneller als vorher weiterfahren.",
+      "Die Route vollständig ändern.",
+      "Das Auto verkaufen."
+    ],
+    answer:0,
+    exp:"Eine Pause ist eine zeitliche Unterbrechung einer Aktivität."
+  },
+  {
+    word:"früher oder später",
+    q:"Was bedeutet „früher oder später“?",
+    options:[
+      "Irgendwann, unabhängig davon, wann genau.",
+      "Nur sehr früh am Morgen.",
+      "Immer direkt nach dem Start.",
+      "Nur am Ende einer Reise."
+    ],
+    answer:0,
+    exp:"Die Wendung bedeutet, dass etwas irgendwann passieren wird, ohne einen genauen Zeitpunkt zu nennen."
+  }
+];
+
+function submitTest(){
+  const inputs=[...document.querySelectorAll('.blank')];
+  let correct=0, wrong=[];
+  inputs.forEach((el,i)=>{
+    const val=el.value.trim().toLowerCase();
+    const ans=el.dataset.answer.toLowerCase();
+    el.classList.remove('correct','wrong');
+    if(val===ans){
+      el.classList.add('correct'); correct++;
+    }else{
+      el.classList.add('wrong');
+      wrong.push({n:i+1,your:el.value.trim() || "—",answer:ans});
+    }
+  });
+  const score=document.getElementById('score');
+  score.style.display='block';
+  score.innerHTML=`<strong>${correct} / ${inputs.length}</strong><br>
+    <span>${Math.round(correct/inputs.length*100)}% richtig · ${wrong.length} Fehler</span>`;
+
+  const review=document.getElementById('review');
+  const list=document.getElementById('reviewList');
+  review.style.display='block';
+  list.innerHTML='';
+  inputs.forEach((el,i)=>{
+    const n=i+1, val=el.value.trim().toLowerCase(), ans=el.dataset.answer.toLowerCase();
+    const info=explanations[n];
+    const div=document.createElement('div');
+    div.className='review-item '+(val===ans?'ok':'');
+    div.innerHTML=`
+      <div><b>${n}. ${val===ans?'✓ Richtig':'✕ Falsch'}</b>
+      <span class="tag">${info.type}</span></div>
+      <div class="answerline">Deine Antwort: <span class="${val===ans?'':'yourwrong'}">${el.value.trim()||'—'}</span></div>
+      <div class="answerline">Richtige Antwort: <b>${ans}</b></div>
+      <div class="explain"><b>${info.title}</b><br>${info.text}</div>`;
+    list.appendChild(div);
+  });
+
+  buildQuiz(wrong);
+  review.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function buildQuiz(wrong){
+  const quiz=document.getElementById('quiz');
+  const list=document.getElementById('quizList');
+  // Prototype: show vocabulary related to the errors.
+  // If the user made no errors, show three reinforcement questions.
+  const selected = wrong.length
+    ? vocab.filter((v,i)=>i < Math.min(3, wrong.length))
+    : vocab;
+  quiz.style.display='block';
+  list.innerHTML='';
+  selected.forEach((item,idx)=>{
+    const q=document.createElement('div');
+    q.className='q';
+    q.dataset.answer=item.answer;
+    q.innerHTML=`<b>${idx+1}. ${item.q}</b>
+      <div class="small" style="margin-top:5px">Zielwort: ${item.word}</div>
+      <div class="options">${item.options.map((o,j)=>
+        `<button class="option" onclick="chooseOption(this,${j},${idx})">${String.fromCharCode(65+j)}. ${o}</button>`
+      ).join('')}</div>
+      <div class="feedback" id="fb-${idx}">${item.exp}</div>`;
+    list.appendChild(q);
+  });
+  quiz.dataset.count=selected.length;
+  quiz.dataset.answers=JSON.stringify(selected.map(x=>x.answer));
+}
+
+function chooseOption(btn,j,qi){
+  const q=btn.closest('.q');
+  q.querySelectorAll('.option').forEach(x=>x.classList.remove('selected','correct','wrong'));
+  btn.classList.add('selected');
+  q.dataset.selected=j;
+}
+
+function checkQuiz(){
+  const quiz=document.getElementById('quiz');
+  const answers=JSON.parse(quiz.dataset.answers||'[]');
+  let score=0;
+  quiz.querySelectorAll('.q').forEach((q,i)=>{
+    const selected=Number(q.dataset.selected);
+    const correct=answers[i];
+    q.querySelectorAll('.option').forEach((b,j)=>{
+      if(j===correct) b.classList.add('correct');
+      if(j===selected && selected!==correct) b.classList.add('wrong');
+    });
+    if(selected===correct) score++;
+    q.querySelector('.feedback').style.display='block';
+  });
+  const box=document.getElementById('quizScore');
+  box.style.display='block';
+  box.innerHTML=`<strong>${score} / ${answers.length}</strong><br>
+    <span>Wortschatz-Quiz abgeschlossen.</span>`;
+}
+
+function resetTest(){
+  document.querySelectorAll('.blank').forEach(el=>{
+    el.value='';el.classList.remove('correct','wrong');
+  });
+  document.getElementById('score').style.display='none';
+  document.getElementById('review').style.display='none';
+  document.getElementById('quiz').style.display='none';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
