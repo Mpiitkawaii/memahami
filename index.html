@@ -314,23 +314,14 @@
     background:#faf7ff;
   }
 
-  .option.selected{
-    border-color:#9b7cff;
-    background:#f3eeff;
-    box-shadow:0 0 0 3px #9b7cff22;
-    transform:translateY(-1px);
-  }
-
   .option.selected.correct{
     background:#eafff4;
     border-color:var(--good);
-    box-shadow:0 0 0 3px #35b87822;
   }
 
   .option.selected.wrong{
     background:#fff0f3;
     border-color:var(--bad);
-    box-shadow:0 0 0 3px #f0647822;
   }
 
   .feedback{
@@ -390,7 +381,7 @@
       ein<input class="blank" data-answer="mal" aria-label="Blank 5"> eine
       Pa<input class="blank" data-answer="use" aria-label="Blank 6">, um
       z<input class="blank" data-answer="u" aria-label="Blank 7"> tanken,
-      a<input class="blank" data-answer="n" aria-label="Blank 8"> die
+      <input class="blank" data-answer="auf" aria-label="Blank 8"> die
       Toi<input class="blank" data-answer="lette" aria-label="Blank 9"> zu
       ge<input class="blank" data-answer="hen" aria-label="Blank 10"> oder
       au<input class="blank" data-answer="f" aria-label="Blank 11">, um
@@ -468,17 +459,17 @@ const explanations = {
   8:{
     type:"Grammatik",
     title:"„auf die Toilette“",
-    text:"Die feste Wendung lautet „auf die Toilette gehen“. Deshalb ergänzt man hier „f“: au + f → auf."
+    text:"Die übliche Verbindung ist „auf die Toilette gehen“. „Toilette“ steht dabei im Akkusativ: die Toilette → auf die Toilette."
   },
   9:{
     type:"Wortschatz",
     title:"„Toilette“",
-    text:"„Toilette“ bezeichnet den Ort bzw. Raum, den man während einer Fahrt aufsuchen kann. Im Satz heißt es „an die Toilette gehen“."
+    text:"„Toilette“ bezeichnet den Ort bzw. Raum, den man während einer Fahrt aufsuchen kann. Im Satz heißt es „auf die Toilette gehen“."
   },
   10:{
     type:"Wortform",
     title:"„gehen“",
-    text:"Nach „zu“ folgt der Infinitiv: zu gehen. Der ganze Ausdruck lautet „an die Toilette zu gehen“."
+    text:"Nach „zu“ folgt der Infinitiv: zu gehen. Der ganze Ausdruck lautet „auf die Toilette zu gehen“."
   },
   11:{
     type:"Grammatik",
@@ -619,24 +610,33 @@ function buildQuiz(wrong){
     q.innerHTML=`<b>${idx+1}. ${item.q}</b>
       <div class="small" style="margin-top:5px">Zielwort: ${item.word}</div>
       <div class="options">${item.options.map((o,j)=>
-        `<button type="button" class="option" data-choice="${j}">${String.fromCharCode(65+j)}. ${o}</button>`
+        `<button type="button" class="option" onclick="chooseOption(this,${j},${idx})">${String.fromCharCode(65+j)}. ${o}</button>`
       ).join('')}</div>
       <div class="feedback" id="fb-${idx}">${item.exp}</div>`;
     list.appendChild(q);
   });
   quiz.dataset.count=selected.length;
   quiz.dataset.answers=JSON.stringify(selected.map(x=>x.answer));
-
-  quiz.querySelectorAll('.q').forEach((q)=>{
-    q.querySelectorAll('.option').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        q.querySelectorAll('.option').forEach(x=>x.classList.remove('selected','correct','wrong'));
-        btn.classList.add('selected');
-        q.dataset.selected=btn.dataset.choice;
-      });
-    });
-  });
 }
+
+function chooseOption(btn,j,qi){
+  const q=btn.closest('.q');
+  if(!q) return;
+  q.querySelectorAll('.option').forEach(x=>x.classList.remove('selected','correct','wrong'));
+  btn.classList.add('selected');
+  q.dataset.selected=String(j);
+}
+
+// Robust click handling for the vocabulary buttons.
+document.addEventListener('click', function(e){
+  const btn=e.target.closest('.option');
+  if(!btn) return;
+  const q=btn.closest('.q');
+  if(!q) return;
+  const buttons=[...q.querySelectorAll('.option')];
+  const index=buttons.indexOf(btn);
+  chooseOption(btn,index,0);
+});
 
 function checkQuiz(){
   const quiz=document.getElementById('quiz');
