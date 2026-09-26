@@ -420,7 +420,7 @@
 </main>
 
 <script>
-const explanations = {
+  const explanations = {
   1:{
     type:"Grammatik",
     title:"Genitiv nach „während“",
@@ -476,79 +476,133 @@ const explanations = {
     title:"„auf“",
     text:"Hier wird die Präposition „auf“ verwendet: „auf ... essen oder schlafen“. Der Satz nennt damit eine weitere Möglichkeit während der Reise."
   },
-  12:{
-    type:"Grammatik",
-    title:"Infinitiv mit „zu“",
-    text:"Auch hier steht nach „um“ die Struktur „um zu essen“. „zu“ gehört zur Infinitivkonstruktion."
+    12:{
+    type:"Grammar",
+    title:"„um zu essen“",
+    text:"Sama seperti pada bagian sebelumnya, „um ... zu + Infinitiv“ digunakan untuk menyatakan tujuan. „um zu essen“ berarti „untuk makan“. Kata kerja „essen“ tetap dalam bentuk Infinitiv."
   },
+
   13:{
-    type:"Wortform",
-    title:"„oder“",
-    text:"„oder“ verbindet zwei Alternativen: essen oder schlafen."
+    type:"Kontext",
+    title:"Konjungsi „oder“",
+    text:"„oder“ berarti „atau“ dan digunakan untuk menghubungkan dua pilihan atau kemungkinan. Dalam kalimat ini terdapat dua aktivitas: „essen oder schlafen“ = „makan atau tidur“."
   },
+
   14:{
-    type:"Wortschatz",
-    title:"„schlafen“",
-    text:"„schlafen“ bedeutet, sich im Schlaf auszuruhen. Im Kontext kann man an einem Rastplatz essen oder schlafen."
+    type:"Kosakata",
+    title:"Kata „schlafen“",
+    text:"„schlafen“ berarti „tidur“. Dalam konteks perjalanan panjang, kata ini menjelaskan salah satu aktivitas yang mungkin dilakukan ketika seseorang berhenti di tempat istirahat."
   },
+
   15:{
-    type:"Grammatik",
-    title:"„jede“",
-    text:"Der Ausdruck lautet „jede Autobahn“. „Autobahn“ ist feminin, deshalb heißt es im Nominativ Singular „jede“."
+    type:"Grammar",
+    title:"„jede“ + kata benda feminin",
+    text:"„Autobahn“ adalah kata benda feminin: die Autobahn. Karena digunakan dalam Nominativ Singular setelah „jede“, bentuk yang benar adalah „jede Autobahn“. Jadi: „jede Autobahn“ = „setiap Autobahn“."
   },
+
   16:{
-    type:"Grammatik",
-    title:"Reflexives Pronomen „sich“",
-    text:"„sich“ gehört zur reflexiven Wendung „sich etwas nennen“. Hier: „sich sogenannte Raststätten“."
+    type:"Grammar",
+    title:"Kata „sich“",
+    text:"„sich“ merupakan Reflexivpronomen. Dalam konteks kalimat ini, kata tersebut digunakan dalam struktur „sich ... nennen“, yaitu menyebut atau menamakan sesuatu sebagai sesuatu."
   },
+
   17:{
-    type:"Wortschatz",
-    title:"„Raststätten“",
-    text:"Eine Raststätte ist ein Ort an einer Autobahn, an dem Reisende eine Pause machen können. Dort gibt es häufig eine Tankstelle und ein Restaurant. Die Pluralform ist „Raststätten“."
+    type:"Kosakata",
+    title:"Kata „Raststätte“",
+    text:"„Raststätte“ berarti „tempat istirahat“ di Autobahn. Biasanya tempat ini menyediakan fasilitas bagi pengendara, misalnya tempat parkir, pom bensin, restoran, dan terkadang hotel. Bentuk jamaknya adalah „Raststätten“."
   },
+
   18:{
-    type:"Grammatik",
-    title:"„sind“",
-    text:"Das Verb „sein“ muss mit dem Plural „Parkplätze“ übereinstimmen: Die Parkplätze sind ..."
+    type:"Grammar",
+    title:"Kesesuaian subjek dan kata kerja",
+    text:"Kata benda „Parkplätze“ berbentuk jamak. Karena itu kata kerja „sein“ juga harus berbentuk jamak: „Parkplätze sind ...“. Bentuk „ist“ digunakan untuk subjek tunggal, sedangkan „sind“ digunakan untuk subjek jamak."
   }
 };
 
 const vocab = [
   {
     word:"Raststätte",
-    q:"Was ist eine „Raststätte“?",
+
+    q:"Apa arti kata „Raststätte“ dalam konteks perjalanan di Autobahn?",
+
     options:[
-      "Ein Ort an einer Autobahn, an dem Reisende eine Pause machen können.",
-      "Eine kleine Straße zwischen zwei Städten.",
-      "Ein spezieller Fahrstreifen für Busse.",
-      "Ein Parkplatz nur für Lastwagen ohne weitere Einrichtungen."
+      "Tempat istirahat di Autobahn yang menyediakan berbagai fasilitas bagi pengendara.",
+      "Jalur khusus yang digunakan kendaraan untuk keluar dari Autobahn.",
+      "Tempat pemeriksaan kendaraan sebelum memasuki sebuah kota.",
+      "Tempat parkir yang hanya digunakan oleh kendaraan pengangkut barang."
     ],
+
     answer:0,
-    exp:"Eine Raststätte liegt typischerweise an einer Autobahn und bietet Reisenden Möglichkeiten wie Essen, Tanken oder eine Pause."
+
+    exp:"„Raststätte“ berarti tempat istirahat di Autobahn. Biasanya terdapat fasilitas seperti tempat parkir, restoran, pom bensin, dan terkadang hotel."
   },
+
   {
     word:"Pause",
-    q:"Was bedeutet „eine Pause machen“ im Kontext einer Autofahrt?",
+
+    q:"Dalam konteks „eine Pause brauchen“, apa arti „Pause“?",
+
     options:[
-      "Die Fahrt für eine Weile unterbrechen.",
-      "Schneller als vorher weiterfahren.",
-      "Die Route vollständig ändern.",
-      "Das Auto verkaufen."
+      "Waktu untuk menghentikan aktivitas sementara dan beristirahat.",
+      "Waktu yang digunakan untuk mempercepat perjalanan.",
+      "Perubahan tujuan perjalanan secara tiba-tiba.",
+      "Persiapan sebelum kendaraan mulai berjalan."
     ],
+
     answer:0,
-    exp:"Eine Pause ist eine zeitliche Unterbrechung einer Aktivität."
+
+    exp:"„Pause“ berarti jeda atau waktu istirahat. „Eine Pause brauchen“ berarti membutuhkan waktu untuk berhenti sejenak dari aktivitas."
   },
+
   {
     word:"früher oder später",
-    q:"Was bedeutet „früher oder später“?",
+
+    q:"Apa makna ungkapan „früher oder später“?",
+
     options:[
-      "Irgendwann, unabhängig davon, wann genau.",
-      "Nur sehr früh am Morgen.",
-      "Immer direkt nach dem Start.",
-      "Nur am Ende einer Reise."
+      "Cepat atau lambat; pada suatu waktu nanti.",
+      "Hanya pada pagi hari sebelum berangkat.",
+      "Segera setelah melakukan suatu aktivitas.",
+      "Hanya ketika perjalanan sudah hampir selesai."
     ],
+
     answer:0,
-    exp:"Die Wendung bedeutet, dass etwas irgendwann passieren wird, ohne einen genauen Zeitpunkt zu nennen."
+
+    exp:"„Früher oder später“ berarti „cepat atau lambat“ atau „suatu saat“. Ungkapan ini tidak menunjukkan waktu yang benar-benar spesifik."
+  },
+
+  {
+    word:"Herausforderung",
+
+    q:"Apa arti „Herausforderung“?",
+
+    options:[
+      "Tantangan atau sesuatu yang membutuhkan usaha untuk diselesaikan.",
+      "Kesempatan untuk beristirahat setelah melakukan aktivitas.",
+      "Keputusan yang sudah dibuat sebelumnya.",
+      "Peraturan yang harus dipatuhi oleh semua orang."
+    ],
+
+    answer:0,
+
+    exp:"„Herausforderung“ berarti tantangan. Kata ini sering digunakan untuk sesuatu yang membutuhkan usaha, kemampuan, atau solusi."
+  },
+
+  {
+    word:"ermöglichen",
+
+    q:"Apa arti kata kerja „ermöglichen“?",
+
+    options:[
+      "Memungkinkan atau membuat sesuatu menjadi mungkin.",
+      "Menghentikan seseorang dari melakukan sesuatu.",
+      "Menjelaskan sesuatu secara lebih sederhana.",
+      "Mengubah sesuatu menjadi lebih sulit."
+    ],
+
+    answer:0,
+
+    exp:"„ermöglichen“ berarti memungkinkan. Contoh: „Digitale Plattformen ermöglichen den Studierenden den Zugang zu Lernmaterialien.“ = Platform digital memungkinkan mahasiswa mengakses materi pembelajaran."
   }
 ];
 
